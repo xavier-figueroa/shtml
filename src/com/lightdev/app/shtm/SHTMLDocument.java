@@ -64,7 +64,7 @@ import javax.swing.undo.UndoableEdit;
  */
 public class SHTMLDocument extends HTMLDocument {
     public static final String SUFFIX = "&nbsp;";
-    private static Set paragraphElements;
+    private static Set<Object> paragraphElements;
     private CompoundEdit compoundEdit;
     private int compoundEditDepth;
     private boolean inSetParagraphAttributes = false;
@@ -171,7 +171,8 @@ public class SHTMLDocument extends HTMLDocument {
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#setOuterHTML(javax.swing.text.Element, java.lang.String)
      */
-    public void setOuterHTML(final Element paragraphElement, final String htmlText) throws BadLocationException,
+    @Override
+	public void setOuterHTML(final Element paragraphElement, final String htmlText) throws BadLocationException,
             IOException {
         try {
             startCompoundEdit();
@@ -203,7 +204,8 @@ public class SHTMLDocument extends HTMLDocument {
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#insertAfterEnd(javax.swing.text.Element, java.lang.String)
      */
-    public void insertAfterEnd(final Element elem, final String htmlText) throws BadLocationException, IOException {
+    @Override
+	public void insertAfterEnd(final Element elem, final String htmlText) throws BadLocationException, IOException {
         try {
             startCompoundEdit();
             super.insertAfterEnd(elem, htmlText);
@@ -216,7 +218,8 @@ public class SHTMLDocument extends HTMLDocument {
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#insertAfterStart(javax.swing.text.Element, java.lang.String)
      */
-    public void insertAfterStart(final Element elem, final String htmlText) throws BadLocationException, IOException {
+    @Override
+	public void insertAfterStart(final Element elem, final String htmlText) throws BadLocationException, IOException {
         try {
             startCompoundEdit();
             super.insertAfterStart(elem, htmlText);
@@ -229,7 +232,8 @@ public class SHTMLDocument extends HTMLDocument {
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#insertBeforeEnd(javax.swing.text.Element, java.lang.String)
      */
-    public void insertBeforeEnd(final Element elem, final String htmlText) throws BadLocationException, IOException {
+    @Override
+	public void insertBeforeEnd(final Element elem, final String htmlText) throws BadLocationException, IOException {
         try {
             startCompoundEdit();
             super.insertBeforeEnd(elem, htmlText);
@@ -242,7 +246,8 @@ public class SHTMLDocument extends HTMLDocument {
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#insertBeforeStart(javax.swing.text.Element, java.lang.String)
      */
-    public void insertBeforeStart(final Element elem, final String htmlText) throws BadLocationException, IOException {
+    @Override
+	public void insertBeforeStart(final Element elem, final String htmlText) throws BadLocationException, IOException {
         try {
             startCompoundEdit();
             super.insertBeforeStart(elem, htmlText);
@@ -290,7 +295,8 @@ public class SHTMLDocument extends HTMLDocument {
         }
     }
 
-    protected void fireUndoableEditUpdate(final UndoableEditEvent e) {
+    @Override
+	protected void fireUndoableEditUpdate(final UndoableEditEvent e) {
         if (compoundEditDepth == 0) {
             super.fireUndoableEditUpdate(e);
         }
@@ -416,7 +422,8 @@ public class SHTMLDocument extends HTMLDocument {
      * with HTML.  This is implemented to return an instance of
      * SHTMLDocument.SHTMLReader.
      */
-    public HTMLEditorKit.ParserCallback getReader(final int pos) {
+    @Override
+	public HTMLEditorKit.ParserCallback getReader(final int pos) {
         final Object desc = getProperty(Document.StreamDescriptionProperty);
         if (desc instanceof URL) {
             setBase((URL) desc);
@@ -464,7 +471,8 @@ public class SHTMLDocument extends HTMLDocument {
          *
          * Otherwise lets HTMLDocument.HTMLReader do the work.
          */
-        public void handleStartTag(final HTML.Tag tag, final MutableAttributeSet attributeSet, final int pos) {
+        @Override
+		public void handleStartTag(final HTML.Tag tag, final MutableAttributeSet attributeSet, final int pos) {
             if (tag == HTML.Tag.BODY) {
                 inBody = true;
             }
@@ -511,7 +519,7 @@ public class SHTMLDocument extends HTMLDocument {
 
         private boolean isParagraphTag(final Tag t) {
             if (paragraphElements == null) {
-                paragraphElements = new HashSet();
+                paragraphElements = new HashSet<>();
                 final Object[] elementList = new Object[] { HTML.Tag.BLOCKQUOTE, HTML.Tag.DIR, HTML.Tag.DIV,
                         HTML.Tag.DL, HTML.Tag.DT, HTML.Tag.FRAMESET, HTML.Tag.H1, HTML.Tag.H2, HTML.Tag.H3,
                         HTML.Tag.H4, HTML.Tag.H5, HTML.Tag.H6, HTML.Tag.HR, HTML.Tag.LI, HTML.Tag.MENU, HTML.Tag.OL,
@@ -546,7 +554,8 @@ public class SHTMLDocument extends HTMLDocument {
          * If a SPAN tag is detected in this method, it gets redirected
          * to handleStartTag and handleEndTag respectively.
          */
-        public void handleSimpleTag(final HTML.Tag t, final MutableAttributeSet a, final int pos) {
+        @Override
+		public void handleSimpleTag(final HTML.Tag t, final MutableAttributeSet a, final int pos) {
             if (inBody && !paragraphCreated && !paragraphInserted) {
                 insertParagraphStartTag(pos);
             }
@@ -567,7 +576,8 @@ public class SHTMLDocument extends HTMLDocument {
          * Handles end tag. If a SPAN tag is directed to this method, end its action,
          * otherwise, let HTMLDocument.HTMLReader do the work
          */
-        public void handleEndTag(final HTML.Tag tag, final int pos) {
+        @Override
+		public void handleEndTag(final HTML.Tag tag, final int pos) {
             if (tag == HTML.Tag.BODY) {
                 if (paragraphCreated) {
                     insertParagraphEndTag(pos);
@@ -599,7 +609,8 @@ public class SHTMLDocument extends HTMLDocument {
         /* (non-Javadoc)
          * @see javax.swing.text.html.HTMLDocument.HTMLReader#handleComment(char[], int)
          */
-        public void handleComment(final char[] data, final int pos) {
+        @Override
+		public void handleComment(final char[] data, final int pos) {
             if (emptyDocument) {
                 super.handleComment(data, pos);
             }
@@ -624,7 +635,8 @@ public class SHTMLDocument extends HTMLDocument {
          * a SPAN tag and to map from HTML to Java attributes.
          */
         class SHTMLCharacterAction extends HTMLDocument.HTMLReader.CharacterAction {
-            public void start(final HTML.Tag tag, final MutableAttributeSet attr) {
+            @Override
+			public void start(final HTML.Tag tag, final MutableAttributeSet attr) {
                 pushCharacterStyle();
                 if (attr.isDefined(IMPLIED)) {
                     attr.removeAttribute(IMPLIED);
@@ -641,14 +653,16 @@ public class SHTMLDocument extends HTMLDocument {
                     .getMappedAttributes(AttributeMapper.toJava);
             }
 
-            public void end(final HTML.Tag t) {
+            @Override
+			public void end(final HTML.Tag t) {
                 popCharacterStyle();
             }
         }
     }
 
     /* -------- custom reader implementation end -------- */
-    public Element getParagraphElement(final int pos) {
+    @Override
+	public Element getParagraphElement(final int pos) {
         return getParagraphElement(pos, inSetParagraphAttributes);
     }
 
@@ -675,7 +689,8 @@ public class SHTMLDocument extends HTMLDocument {
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#setParagraphAttributes(int, int, javax.swing.text.AttributeSet, boolean)
      */
-    public void setParagraphAttributes(final int offset, final int length, final AttributeSet s, final boolean replace) {
+    @Override
+	public void setParagraphAttributes(final int offset, final int length, final AttributeSet s, final boolean replace) {
         startCompoundEdit();
         super.setParagraphAttributes(offset, length, s, replace);
         inSetParagraphAttributes = true;
@@ -728,7 +743,8 @@ public class SHTMLDocument extends HTMLDocument {
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#getBase()
      */
-    public URL getBase() {
+    @Override
+	public URL getBase() {
         URL url = super.getBase();
         if (false == baseDirChecked) {
             baseDirChecked = true;
@@ -750,7 +766,8 @@ public class SHTMLDocument extends HTMLDocument {
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#setBase(java.net.URL)
      */
-    public void setBase(final URL u) {
+    @Override
+	public void setBase(final URL u) {
         baseDirChecked = false;
         super.setBase(u);
     }

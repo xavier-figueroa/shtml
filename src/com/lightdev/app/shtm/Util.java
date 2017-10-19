@@ -79,7 +79,7 @@ public class Util {
     public static final String px = "px";
     /** the default block size in bytes for file operations */
     private static int blockSize = 1024;
-    private static Vector startTimes = new Vector();
+    private static Vector<Long> startTimes = new Vector<>();
     private static final String ERR_TITLE = "Error";
     private static String unit = "";
     /** a style sheet instanciated once for access to its utility methods */
@@ -163,7 +163,7 @@ public class Util {
     public static AttributeSet resolveAttributes(final AttributeSet style) {
         final SimpleAttributeSet set = new SimpleAttributeSet();
         if (style != null) {
-            final Enumeration names = style.getAttributeNames();
+            final Enumeration<?> names = style.getAttributeNames();
             Object value;
             Object key;
             while (names.hasMoreElements()) {
@@ -254,7 +254,7 @@ public class Util {
      *
      * @return a Vector with all style names found
      */
-    public static Vector getStyleNamesForTag(final StyleSheet styles, final String tag) {
+    public static Vector<String> getStyleNamesForTag(final StyleSheet styles, final String tag) {
         return Util.getStyleClassVector(tag, styles.getStyleNames());
     }
 
@@ -266,15 +266,15 @@ public class Util {
      *
      * @return a Vector with all style names found
      */
-    public static Vector getStyleNamesForTag(final AttributeSet styles, final String tag) {
+    public static Vector<String> getStyleNamesForTag(final AttributeSet styles, final String tag) {
         return Util.getStyleClassVector(tag, styles.getAttributeNames());
     }
 
-    private static Vector getStyleClassVector(final String tag, final Enumeration e) {
+    private static Vector<String> getStyleClassVector(final String tag, final Enumeration<?> enumeration) {
         String name;
-        final Vector v = new Vector(0);
-        while (e.hasMoreElements()) {
-            name = (String) e.nextElement();
+        final Vector<String> v = new Vector<>(0);
+        while (enumeration.hasMoreElements()) {
+            name = (String) enumeration.nextElement();
             if (name.toLowerCase().startsWith(tag + ".")) {
                 //System.out.println("getStyleClassVector adding name '" + name + "'");
                 v.addElement(name.substring(2));
@@ -290,10 +290,10 @@ public class Util {
      *
      * @return a Vector with all names found
      */
-    public static Vector getStyleNames(final StyleSheet styles) {
-        final Vector styleNames = new Vector(0);
+    public static Vector<Object> getStyleNames(final StyleSheet styles) {
+        final Vector<Object> styleNames = new Vector<>(0);
         try {
-            final Enumeration rules = styles.getStyleNames();
+            final Enumeration<?> rules = styles.getStyleNames();
             while (rules.hasMoreElements()) {
                 styleNames.addElement(rules.nextElement());
             }
@@ -394,7 +394,7 @@ public class Util {
      * @return the path of this class file or the path of the JAR file this class
      *      file resides in, whatever applies
      */
-    public static String getClassFilePath(final Class cls) {
+    public static String getClassFilePath(final Class<?> cls) {
         int end = 0;
         String urlStr = null;
         String clsName = cls.getName();
@@ -603,7 +603,7 @@ public class Util {
      * @return the resulting string array
      */
     public static String[] tokenize(final String input, final String delim) {
-        final Vector v = new Vector();
+        final Vector<String> v = new Vector<>();
         final StringTokenizer t = new StringTokenizer(input, delim);
         String result[];
         while (t.hasMoreTokens()) {
@@ -611,7 +611,7 @@ public class Util {
         }
         result = new String[v.size()];
         for (int i = 0; i < result.length; i++) {
-            result[i] = (String) v.elementAt(i);
+            result[i] = v.elementAt(i);
         }
         return result;
     }

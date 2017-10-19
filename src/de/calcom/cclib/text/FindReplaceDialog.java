@@ -252,9 +252,9 @@ public class FindReplaceDialog extends JDialog {
      * @param  node  the node, that is affected by the event
      */
     private void fireGetNextDocument() {
-        final Enumeration listenerList = listeners.elements();
+        final Enumeration<FindReplaceListener> listenerList = listeners.elements();
         while (listenerList.hasMoreElements()) {
-            ((FindReplaceListener) listenerList.nextElement()).getNextDocument(new FindReplaceEvent(this));
+            listenerList.nextElement().getNextDocument(new FindReplaceEvent(this));
         }
     }
 
@@ -264,9 +264,9 @@ public class FindReplaceDialog extends JDialog {
      * @param  node  the node, that is affected by the event
      */
     private void fireGetFirstDocument() {
-        final Enumeration listenerList = listeners.elements();
+        final Enumeration<FindReplaceListener> listenerList = listeners.elements();
         while (listenerList.hasMoreElements()) {
-            ((FindReplaceListener) listenerList.nextElement()).getFirstDocument(new FindReplaceEvent(this));
+            listenerList.nextElement().getFirstDocument(new FindReplaceEvent(this));
         }
     }
 
@@ -276,9 +276,9 @@ public class FindReplaceDialog extends JDialog {
      * @param  node  the node, that is affected by the event
      */
     private void fireFindReplaceTerminated() {
-        final Enumeration listenerList = listeners.elements();
+        final Enumeration<FindReplaceListener> listenerList = listeners.elements();
         while (listenerList.hasMoreElements()) {
-            ((FindReplaceListener) listenerList.nextElement()).findReplaceTerminated(new FindReplaceEvent(this));
+            listenerList.nextElement().findReplaceTerminated(new FindReplaceEvent(this));
         }
     }
 
@@ -738,7 +738,7 @@ public class FindReplaceDialog extends JDialog {
         jcbStartOnTop.setSelected(true);
         jcbProject.setSelected(false);
         
-        MutableComboBoxModel searchTermComboModel = (MutableComboBoxModel)jcomboSearchTerm.getModel();
+        MutableComboBoxModel<String> searchTermComboModel = (MutableComboBoxModel<String>) jcomboSearchTerm.getModel();
         while (searchTermComboModel.getSize() > 0)
         {
         	searchTermComboModel.removeElementAt(0);
@@ -817,7 +817,8 @@ public class FindReplaceDialog extends JDialog {
     /** GUI builder init */
     private void jbInit() throws Exception {
         final KeyListener escapeKeyListender = new KeyAdapter() {
-            public void keyPressed(final KeyEvent e) {
+            @Override
+			public void keyPressed(final KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     e.consume();
                     jbtnClose_actionPerformed(null);
@@ -828,7 +829,8 @@ public class FindReplaceDialog extends JDialog {
             "Options");
         final ButtonGroup bgSearchDirection = new ButtonGroup();
         jbtnFindNext.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
+            @Override
+			public void actionPerformed(final ActionEvent e) {
                 jbtnFindNext_actionPerformed(e);
             }
         });
@@ -854,7 +856,8 @@ public class FindReplaceDialog extends JDialog {
         jtfReplace.setPreferredSize(new Dimension(59, 12));
         jtfReplace.setText("jtfReplace");
         jtfReplace.addKeyListener(new KeyAdapter() {
-            public void keyPressed(final KeyEvent e) {
+            @Override
+			public void keyPressed(final KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     e.consume();
                     jbtnClose_actionPerformed(null);
@@ -872,7 +875,8 @@ public class FindReplaceDialog extends JDialog {
         jcomboSearchTerm.setPreferredSize(new Dimension(63, 12));
         //jcomboSearchTerm.setText("jtfPhrase");
         jcomboSearchTerm.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
-            public void keyPressed(final KeyEvent e) {
+            @Override
+			public void keyPressed(final KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
                     e.consume();
                     jbtnClose_actionPerformed(null);
@@ -897,7 +901,8 @@ public class FindReplaceDialog extends JDialog {
         jbtnClose.setPreferredSize(new Dimension(100, 27));
         jbtnClose.setText(Util.getResourceString(SHTMLPanel.getResources(), "closeBtnName"));
         jbtnClose.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
+            @Override
+			public void actionPerformed(final ActionEvent e) {
                 jbtnClose_actionPerformed(e);
             }
         });
@@ -910,7 +915,8 @@ public class FindReplaceDialog extends JDialog {
         jbtnReplace.setPreferredSize(new Dimension(100, 27));
         jbtnReplace.setText(Util.getResourceString(SHTMLPanel.getResources(), "replace"));
         jbtnReplace.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
+            @Override
+			public void actionPerformed(final ActionEvent e) {
                 jbtnReplace_actionPerformed(e);
             }
         });
@@ -920,7 +926,8 @@ public class FindReplaceDialog extends JDialog {
         jbtnCancel.setPreferredSize(new Dimension(100, 27));
         jbtnCancel.setText(Util.getResourceString(SHTMLPanel.getResources(), "cancelBtnName"));
         jbtnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
+            @Override
+			public void actionPerformed(final ActionEvent e) {
                 jbtnCancel_actionPerformed(e);
             }
         });
@@ -996,7 +1003,7 @@ public class FindReplaceDialog extends JDialog {
     /** choice of replace operation */
     private int replaceChoice;
     /** the listeners for FindReplaceEvents */
-    private final Vector listeners = new Vector(0);
+    private final Vector<FindReplaceListener> listeners = new Vector<>(0);
     /** separators for whole words only search */
     private static final char[] WORD_SEPARATORS = { ' ', '\t', '\n', '\r', '\f', '.', ',', ':', '-', '(', ')', '[',
             ']', '{', '}', '<', '>', '/', '|', '\\', '\'', '\"' };
@@ -1032,7 +1039,7 @@ public class FindReplaceDialog extends JDialog {
     private final JTextField jtfReplace = new JTextField();
     private final JPanel jpnlMain = new JPanel();
     private final JRadioButton jrbUp = new JRadioButton();
-    private final JComboBox jcomboSearchTerm = new JComboBox();
+    private final JComboBox<String> jcomboSearchTerm = new JComboBox<>();
     private final JCheckBox jcbMatchCase = new JCheckBox();
     private final JCheckBox jcbMatchApprox = new JCheckBox();
     private final JLabel jLabel3 = new JLabel();
@@ -1047,13 +1054,13 @@ public class FindReplaceDialog extends JDialog {
     private final JCheckBox jcbProject = new JCheckBox();
     /* ---- GUI elements end ---------*/
     
-    public static synchronized void rememberSearchTerm(final String searchTerm, final JComboBox searchTermCombo)
+    public static synchronized void rememberSearchTerm(final String searchTerm, final JComboBox<String> searchTermCombo)
     {
     	//System.out.format("rememberSearchTerm(%s)\n", searchTerm);
     	if (searchTerm.equals(""))
     		return;
     	
-    	MutableComboBoxModel searchTermComboModel = (MutableComboBoxModel)searchTermCombo.getModel();
+    	MutableComboBoxModel<String> searchTermComboModel = (MutableComboBoxModel<String>)searchTermCombo.getModel();
 		
     	// remove this term from the history
     	if (searchTermHistory.contains(searchTerm))
