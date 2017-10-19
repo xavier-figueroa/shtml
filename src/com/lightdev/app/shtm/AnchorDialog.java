@@ -68,7 +68,7 @@ import javax.swing.text.html.HTML;
 class AnchorDialog extends DialogShell implements ActionListener, CaretListener, ListSelectionListener,
         DocumentListener {
     /** dialog components */
-    private JList anchorList;
+    private JList<Object> anchorList;
     private JButton addAnchor;
     private JButton delAnchor;
     private SHTMLEditorPane editor;
@@ -78,7 +78,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     /** the URL this document was loaded from (if loaded from this dialog) */
     private URL url = null;
     /** table for document anchors */
-    private final Hashtable anchorTable = new Hashtable();
+    private final Hashtable<Object, Element> anchorTable = new Hashtable<>();
     /** indicates whether or not changes to the document need to be saved */
     private boolean needsSaving = true;
     /** the help id for this dialog */
@@ -151,7 +151,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
         anchorPanel.setBorder(new TitledBorder(new EtchedBorder(EtchedBorder.LOWERED), Util
             .getResourceString("anchorPanelLabel")));
         //getAnchors(doc);
-        anchorList = new JList(/*anchorTable.keySet().toArray()*/);
+        anchorList = new JList<>(/*anchorTable.keySet().toArray()*/);
         anchorPanel.add(new JScrollPane(anchorList), BorderLayout.CENTER);
         anchorList.addListSelectionListener(this);
         addAnchor = new JButton(Util.getResourceString("addImgBtnTitle"));
@@ -204,7 +204,8 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
     /**
      * overridden to addd some custom cleanup upon closing of dialog
      */
-    public void dispose() {
+    @Override
+	public void dispose() {
         editor.removeCaretListener(this);
         doc.removeDocumentListener(this);
         super.dispose();
@@ -298,7 +299,8 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
      * ActionListener implementatin for proper handling of
      * buttons
      */
-    public void actionPerformed(final ActionEvent e) {
+    @Override
+	public void actionPerformed(final ActionEvent e) {
         final Object src = e.getSource();
         if (src.equals(addAnchor)) {
             doAddAnchor();
@@ -315,7 +317,8 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
      * ListSelectionListener implementation to properly react to
      * changes in the list of anchors
      */
-    public void valueChanged(final ListSelectionEvent e) {
+    @Override
+	public void valueChanged(final ListSelectionEvent e) {
         final Object src = e.getSource();
         if (src.equals(anchorList)) {
             //if(!ignoreAnchorListChanges) {
@@ -323,7 +326,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
             final Highlighter.HighlightPainter p = new DefaultHighlighter.DefaultHighlightPainter(Color.yellow);
             final Object o = anchorList.getSelectedValue();
             if (o != null) {
-                final Element elem = (Element) anchorTable.get(anchorList.getSelectedValue());
+                final Element elem = anchorTable.get(anchorList.getSelectedValue());
                 final int start = elem.getStartOffset();
                 int end = elem.getEndOffset();
                 try {
@@ -347,7 +350,8 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
      * according to whether or not a selection is present in the document
      * to possibly add an anchor to
      */
-    public void caretUpdate(final CaretEvent e) {
+    @Override
+	public void caretUpdate(final CaretEvent e) {
         final Object src = e.getSource();
         if (src.equals(editor)) {
             addAnchor.setEnabled(editor.getSelectionStart() != editor.getSelectionEnd());
@@ -360,7 +364,8 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
      * listens to inserts into the document to track whether or not the document
      * needs to be saved.
      */
-    public void insertUpdate(final DocumentEvent e) {
+    @Override
+	public void insertUpdate(final DocumentEvent e) {
         updateAnchorList();
     }
 
@@ -368,7 +373,8 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
      * listens to removes into the document to track whether or not the document
      * needs to be saved.
      */
-    public void removeUpdate(final DocumentEvent e) {
+    @Override
+	public void removeUpdate(final DocumentEvent e) {
         updateAnchorList();
     }
 
@@ -376,7 +382,8 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
      * listens to changes on the document to track whether or not the document
      * needs to be saved.
      */
-    public void changedUpdate(final DocumentEvent e) {
+    @Override
+	public void changedUpdate(final DocumentEvent e) {
         updateAnchorList();
     }
     /* -------- DocumentListener implementation end ------------*/
