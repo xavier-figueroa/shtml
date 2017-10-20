@@ -87,8 +87,8 @@ class PluginManager {
         return (SHTMLPlugin) loadedPlugins.get(intName);
     }
 
-    public String[] getPluginNames() {
-        return (String[]) nameMap.keySet().toArray();
+    public Object[] getPluginNames() {
+        return nameMap.keySet().toArray();
     }
 
     /**

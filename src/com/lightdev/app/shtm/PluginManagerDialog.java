@@ -59,7 +59,7 @@ class PluginManagerDialog extends DialogShell implements ListSelectionListener, 
     /** indicates if we can ignore changes (when happenig programmatically */
     private boolean ignoreChanges = false;
     /** the list with available plug-ins */
-    private final JList<String> pluginNames;
+    private final JList<Object> pluginNames;
     /** constant for activation button label */
     private final String activateName = Util.getResourceString("activatePlugin");
     /** constant for deactivation button label */
@@ -158,7 +158,7 @@ class PluginManagerDialog extends DialogShell implements ListSelectionListener, 
      * line in the list of plug-ins
      */
     private SHTMLPlugin getSelectedPlugin() {
-        final String name = pluginNames.getSelectedValue();
+        final String name = (String) pluginNames.getSelectedValue();
         return SHTMLPanelImpl.pluginManager.pluginForName(name);
     }
 
