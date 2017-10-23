@@ -404,6 +404,7 @@ class ImageDialog extends DialogShell implements ActionListener, ListSelectionLi
                     Util.copyFile(sFiles[i], new File(imgDirName + File.separator + sFiles[i].getName()));
                     updateFileList();
                 }
+                imgFileList.setSelectedValue(sFiles[sFiles.length-1].getName(), true);
             }
         }
         catch (final Exception e) {
