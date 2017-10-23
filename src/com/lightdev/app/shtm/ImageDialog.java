@@ -431,7 +431,7 @@ class ImageDialog extends DialogShell implements ActionListener, ListSelectionLi
     private void updateFileList() {
         if (imgDir != null && imgFileList != null) {
             final String[] files = imgDir.list();
-            if (files != null && files.length > 0) {
+            if (files != null) {
                 for (int i = 0; i < files.length; i++) {
                     files[i] = files[i];
                 }
