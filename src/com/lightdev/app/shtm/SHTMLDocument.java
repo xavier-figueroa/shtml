@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
@@ -745,23 +746,26 @@ public class SHTMLDocument extends HTMLDocument {
      */
     @Override
 	public URL getBase() {
-        URL url = super.getBase();
-        if (false == baseDirChecked) {
-            baseDirChecked = true;
-            final File docDir = new File(url.getFile());
-            if (!docDir.exists()) {
-                docDir.mkdirs();
-            }
-            try {
-                url = docDir.toURI().toURL();
-                super.setBase(url);
-                return url;
-            }
-            catch (final MalformedURLException e) {
-            }
-        }
-        return url;
-    }
+		URL url = super.getBase();
+		if (false == baseDirChecked) {
+			baseDirChecked = true;
+			try {
+				final File docDir = new File(url.toURI());
+				if (!docDir.exists()) {
+					docDir.mkdirs();
+				}
+
+				url = docDir.toURI().toURL();
+				super.setBase(url);
+				return url;
+			} catch (final MalformedURLException e) {
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
+		}
+		return url;
+	}
 
     /* (non-Javadoc)
      * @see javax.swing.text.html.HTMLDocument#setBase(java.net.URL)
