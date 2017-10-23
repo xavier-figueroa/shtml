@@ -309,7 +309,7 @@ class ImageDialog extends DialogShell implements ActionListener, ListSelectionLi
                 imgFile = new File(a.getAttribute(HTML.Attribute.SRC).toString());
             }
             //System.out.println("ImageDialog.setImageAttribute imgFile=" + imgFile.getAbsolutePath());
-            imgFileList.setSelectedValue(imgFile.getName().toLowerCase(), true);
+            imgFileList.setSelectedValue(imgFile.getName(), true);
         }
         for (int i = 0; i < attributeComponents.size(); i++) {
             attributeComponents.get(i).setValue(a);
@@ -432,7 +432,7 @@ class ImageDialog extends DialogShell implements ActionListener, ListSelectionLi
             final String[] files = imgDir.list();
             if (files != null && files.length > 0) {
                 for (int i = 0; i < files.length; i++) {
-                    files[i] = files[i].toLowerCase();
+                    files[i] = files[i];
                 }
                 imgFileList.setListData(files);
             }
