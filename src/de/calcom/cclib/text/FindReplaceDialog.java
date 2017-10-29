@@ -737,16 +737,7 @@ public class FindReplaceDialog extends JDialog {
         jcbMatchApprox.setSelected(matchApproxSetting.get());
         jcbStartOnTop.setSelected(true);
         jcbProject.setSelected(false);
-        
-        MutableComboBoxModel<String> searchTermComboModel = (MutableComboBoxModel<String>) jcomboSearchTerm.getModel();
-        while (searchTermComboModel.getSize() > 0)
-        {
-        	searchTermComboModel.removeElementAt(0);
-        }
-        for (final String searchTerm: searchTermHistory)
-        {
-        	searchTermComboModel.addElement(searchTerm);
-        }
+
         jcomboSearchTerm.setEditable(true);
         
         jtfReplace.setText("");
@@ -827,6 +818,8 @@ public class FindReplaceDialog extends JDialog {
         };
         titledBorder1 = new TitledBorder(BorderFactory.createEtchedBorder(Color.white, new Color(142, 142, 142)),
             "Options");
+        Dimension btnDimmension = new Dimension(100, 27);
+        
         final ButtonGroup bgSearchDirection = new ButtonGroup();
         jbtnFindNext.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -835,9 +828,9 @@ public class FindReplaceDialog extends JDialog {
             }
         });
         jbtnFindNext.setText(Util.getResourceString(SHTMLPanel.getResources(), "findNext"));
-        jbtnFindNext.setPreferredSize(new Dimension(100, 27));
-        jbtnFindNext.setMinimumSize(new Dimension(100, 27));
-        jbtnFindNext.setMaximumSize(new Dimension(100, 27));
+        jbtnFindNext.setPreferredSize(btnDimmension);
+        jbtnFindNext.setMinimumSize(btnDimmension);
+        jbtnFindNext.setMaximumSize(btnDimmension);
         jbtnFindNext.addKeyListener(escapeKeyListender);
         jcbStartOnTop.setText(Util.getResourceString(SHTMLPanel.getResources(), "searchFromStart"));
         jcbStartOnTop.setToolTipText(Util.getResourceString(SHTMLPanel.getResources(), "searchFromStart.tooltip"));
@@ -854,7 +847,6 @@ public class FindReplaceDialog extends JDialog {
         jpnlFind.setLayout(gridBagLayout5);
         jtfReplace.setMinimumSize(new Dimension(4, 12));
         jtfReplace.setPreferredSize(new Dimension(59, 12));
-        jtfReplace.setText("jtfReplace");
         jtfReplace.addKeyListener(new KeyAdapter() {
             @Override
 			public void keyPressed(final KeyEvent e) {
@@ -896,9 +888,9 @@ public class FindReplaceDialog extends JDialog {
         
         jLabel3.setText(Util.getResourceString(SHTMLPanel.getResources(), "replaceWith"));
         jLabel4.setText(Util.getResourceString(SHTMLPanel.getResources(), "textToFind"));
-        jbtnClose.setMaximumSize(new Dimension(100, 27));
-        jbtnClose.setMinimumSize(new Dimension(100, 27));
-        jbtnClose.setPreferredSize(new Dimension(100, 27));
+        jbtnClose.setMaximumSize(btnDimmension);
+        jbtnClose.setMinimumSize(btnDimmension);
+        jbtnClose.setPreferredSize(btnDimmension);
         jbtnClose.setText(Util.getResourceString(SHTMLPanel.getResources(), "closeBtnName"));
         jbtnClose.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -910,9 +902,9 @@ public class FindReplaceDialog extends JDialog {
         gridLayout2.setColumns(2);
         this.setModal(true);
         this.setTitle(Util.getResourceString(SHTMLPanel.getResources(), "findReplaceDialogTitle"));
-        jbtnReplace.setMaximumSize(new Dimension(100, 27));
-        jbtnReplace.setMinimumSize(new Dimension(100, 27));
-        jbtnReplace.setPreferredSize(new Dimension(100, 27));
+        jbtnReplace.setMaximumSize(btnDimmension);
+        jbtnReplace.setMinimumSize(btnDimmension);
+        jbtnReplace.setPreferredSize(btnDimmension);
         jbtnReplace.setText(Util.getResourceString(SHTMLPanel.getResources(), "replace"));
         jbtnReplace.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -921,9 +913,9 @@ public class FindReplaceDialog extends JDialog {
             }
         });
         jbtnReplace.addKeyListener(escapeKeyListender);
-        jbtnCancel.setMaximumSize(new Dimension(100, 27));
-        jbtnCancel.setMinimumSize(new Dimension(100, 27));
-        jbtnCancel.setPreferredSize(new Dimension(100, 27));
+        jbtnCancel.setMaximumSize(btnDimmension);
+        jbtnCancel.setMinimumSize(btnDimmension);
+        jbtnCancel.setPreferredSize(btnDimmension);
         jbtnCancel.setText(Util.getResourceString(SHTMLPanel.getResources(), "cancelBtnName"));
         jbtnCancel.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -1039,7 +1031,7 @@ public class FindReplaceDialog extends JDialog {
     private final JTextField jtfReplace = new JTextField();
     private final JPanel jpnlMain = new JPanel();
     private final JRadioButton jrbUp = new JRadioButton();
-    private final JComboBox<String> jcomboSearchTerm = new JComboBox<>();
+    private final JComboBox<String> jcomboSearchTerm = new JComboBox<>(searchTermHistory.toArray(new String[searchTermHistory.size()]));
     private final JCheckBox jcbMatchCase = new JCheckBox();
     private final JCheckBox jcbMatchApprox = new JCheckBox();
     private final JLabel jLabel3 = new JLabel();
@@ -1063,9 +1055,7 @@ public class FindReplaceDialog extends JDialog {
     	MutableComboBoxModel<String> searchTermComboModel = (MutableComboBoxModel<String>)searchTermCombo.getModel();
 		
     	// remove this term from the history
-    	if (searchTermHistory.contains(searchTerm))
-    	{
-    		searchTermHistory.remove(searchTerm);
+    	if (searchTermHistory.remove(searchTerm)){
     		searchTermComboModel.removeElement(searchTerm);
     	}
     	
