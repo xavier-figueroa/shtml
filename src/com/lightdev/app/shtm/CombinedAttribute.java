@@ -100,7 +100,7 @@ class CombinedAttribute {
         final Object attr = a.getAttribute(key);
         if (attr != null) {
             //System.out.println("  construct CombinedAttribute attr=" + attr);
-            copyValues(Util.tokenize(attr.toString(), " "));
+            copyValues(attr.toString().split(" "));
         }
         else {
             copyValues(key, a);

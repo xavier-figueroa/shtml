@@ -141,7 +141,7 @@ class DynamicResource {
      */
     public SHTMLMenuBar createMenubar(final UIResources resources, final String name) {
         final SHTMLMenuBar mb = new SHTMLMenuBar();
-        final String[] menuKeys = Util.tokenize(Util.getResourceString(resources, name), " ");
+        final String[] menuKeys = Util.getResourceString(resources, name).split(" ");
         for (int i = 0; i < menuKeys.length; i++) {
             final JMenu m = createMenu(resources, menuKeys[i]);
             if (m != null) {
@@ -166,7 +166,7 @@ class DynamicResource {
         if (def == null) {
             def = "";
         }
-        final String[] itemKeys = Util.tokenize(def, " ");
+        final String[] itemKeys = def.split(" ");
         menu = new JMenu(Util.getResourceString(resources, key + labelSuffix));
         for (int i = 0; i < itemKeys.length; i++) {
             if (itemKeys[i].equals(menuSeparatorKey)) {
@@ -200,7 +200,7 @@ class DynamicResource {
         if (def == null) {
             def = "";
         }
-        final String[] itemKeys = Util.tokenize(def, " ");
+        final String[] itemKeys = def.split(" ");
         menu = new JPopupMenu();
         for (int i = 0; i < itemKeys.length; i++) {
             if (itemKeys[i].equals(menuSeparatorKey)) {
@@ -471,7 +471,7 @@ class DynamicResource {
         final java.awt.Dimension buttonSize = new java.awt.Dimension(24, 24);
         new java.awt.Dimension(3, 20);
         JSeparator separator;
-        final String[] itemKeys = Util.tokenize(Util.getResourceString(resources, nm), " ");
+        final String[] itemKeys = Util.getResourceString(resources, nm).split(" ");
         final JToolBar toolBar = new JToolBar();
         toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
         for (int i = 0; i < itemKeys.length; i++) {

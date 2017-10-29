@@ -899,7 +899,7 @@ public class SHTMLPanelImpl extends SHTMLPanel implements CaretListener {
      * @return the created tool bar
      */
     JToolBar createToolBar(final String nm) {
-        final String[] itemKeys = Util.tokenize(Util.getResourceString(uiResources, nm), " ");
+        final String[] itemKeys = Util.getResourceString(uiResources, nm).split(" ");
         final JToolBar toolBar = new JToolBar();
         for (int i = 0; i < itemKeys.length; i++) {
             /** special handling for separators */
