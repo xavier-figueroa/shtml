@@ -418,7 +418,7 @@ class ImageDialog extends DialogShell implements ActionListener, ListSelectionLi
      */
     private void handleDeleteImage() {
         final String fName = imgFileList.getSelectedValue().toString();
-        if (Util.msg(JOptionPane.YES_NO_OPTION, "confirmDelete", "deleteFileQuery", fName, "\r\n")) {
+        if (Util.msg(this, JOptionPane.YES_NO_OPTION, "confirmDelete", "deleteFileQuery", fName, "\r\n")) {
             final File delFile = new File(imgDir.getAbsolutePath() + File.separator + fName);
             delFile.delete();
             updateFileList();

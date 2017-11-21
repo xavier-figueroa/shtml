@@ -408,11 +408,11 @@ class ParaStyleDialog extends DialogShell implements AttributeComponent, ActionL
         if (initialName == null) {
             initialName = Util.getResourceString("newStyleDefaultName");
         }
-        final String newStyleName = Util.nameInput(null, initialName, "\\w[\\w ]*", "styleNameInputTitle",
+        final String newStyleName = Util.nameInput(this, initialName, "\\w[\\w ]*", "styleNameInputTitle",
             "styleNameInputText").trim();
         if (newStyleName != null) {
             if (styleNameExists(newStyleName) || newStyleName.equalsIgnoreCase(standardStyleName)) {
-                if (Util.msg(JOptionPane.YES_NO_OPTION, "confirmSaveAs", "fileExistsQuery", newStyleName, " ")) {
+                if (Util.msg(this, JOptionPane.YES_NO_OPTION, "confirmSaveAs", "fileExistsQuery", newStyleName, " ")) {
                     saveStyleAs(newStyleName);
                 }
             }
@@ -429,7 +429,7 @@ class ParaStyleDialog extends DialogShell implements AttributeComponent, ActionL
     private void doDeleteStyle() {
         final String styleName = getSelectedStyleName();
         if (styleName != null) {
-            if (Util.msg(JOptionPane.YES_NO_OPTION, "confirmDelete", "deleteStyleQuery", styleName, "\r\n\r\n")) {
+            if (Util.msg(this, JOptionPane.YES_NO_OPTION, "confirmDelete", "deleteStyleQuery", styleName, "\r\n\r\n")) {
                 styles.removeStyle(getContentType() + Util.CLASS_SEPARATOR + styleName);
             }
         }

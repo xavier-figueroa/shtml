@@ -197,11 +197,11 @@ public class Util {
      *
      * @return the entered name or null if action was cancelled
      */
-    public static String nameInput(final Frame parent, final String initialName, final String regex,
+    public static String nameInput(final Component parent, final String initialName, final String regex,
                                    final String title, final String text) {
         String name;
         do {
-            final Object input = JOptionPane.showInputDialog(null, Util.getResourceString(text),
+            final Object input = JOptionPane.showInputDialog(parent, Util.getResourceString(text),
                 Util.getResourceString(title), JOptionPane.QUESTION_MESSAGE, null, null, initialName);
             name = input == null ? null : input.toString();
         } while (name != null && !name.matches(regex));
@@ -221,10 +221,10 @@ public class Util {
      *
      * @return the choice
      */
-    public static int msgChoice(final int options, final String title, final String msg, final String item,
+    public static int msgChoice(final Component parentComponent, final int options, final String title, final String msg, final String item,
                                 final String sep) {
         final String message = item + sep + Util.getResourceString(msg);
-        return JOptionPane.showConfirmDialog(null, message, Util.getResourceString(title), options,
+        return JOptionPane.showConfirmDialog(parentComponent, message, Util.getResourceString(title), options,
             JOptionPane.QUESTION_MESSAGE);
     }
 
@@ -241,9 +241,9 @@ public class Util {
      *
      * @return true, if YES was chosen, false if not
      */
-    public static boolean msg(final int options, final String title, final String msg, final String item,
+    public static boolean msg(final Component parentComponent, final int options, final String title, final String msg, final String item,
                               final String sep) {
-        return (Util.msgChoice(options, title, msg, item, sep) == JOptionPane.YES_OPTION);
+        return (Util.msgChoice(parentComponent, options, title, msg, item, sep) == JOptionPane.YES_OPTION);
     }
 
     /**

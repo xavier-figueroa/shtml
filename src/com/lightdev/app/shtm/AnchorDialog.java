@@ -248,7 +248,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
      * get an anchor name and add it at the current editor location
      */
     private void doAddAnchor() {
-        final String anchorName = Util.nameInput(null, "", ".*", "addAnchorTitle", "addAnchorText");
+        final String anchorName = Util.nameInput(this, "", ".*", "addAnchorTitle", "addAnchorText");
         if (anchorName != null) {
             editor.insertAnchor(anchorName);
             saveChanges();
