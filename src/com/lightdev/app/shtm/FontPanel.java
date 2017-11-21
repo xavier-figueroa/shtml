@@ -65,7 +65,6 @@ class FontPanel extends JPanel implements TitledPickList.TitledPickListListener,
     public FontPanel(final boolean pickBgColor) {
         setLayout(new BorderLayout(5, 5));
         /** create a label for previewing font selections */
-        sample.setText("");
         sample.setEditable(false);
         sample.setPreferredSize(new Dimension(200, 50));
         sample.setHorizontalAlignment(SwingConstants.CENTER);
