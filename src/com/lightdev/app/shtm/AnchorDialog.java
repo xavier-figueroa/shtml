@@ -32,6 +32,7 @@ import java.util.Hashtable;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
@@ -248,7 +249,7 @@ class AnchorDialog extends DialogShell implements ActionListener, CaretListener,
      * get an anchor name and add it at the current editor location
      */
     private void doAddAnchor() {
-        final String anchorName = Util.nameInput(this, "", ".*", "addAnchorTitle", "addAnchorText");
+        final String anchorName = Util.nameInput(JOptionPane.getFrameForComponent(this), "", ".*", "addAnchorTitle", "addAnchorText");
         if (anchorName != null) {
             editor.insertAnchor(anchorName);
             saveChanges();
